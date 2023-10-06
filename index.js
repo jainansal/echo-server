@@ -9,22 +9,26 @@ const io = new Server(httpServer, {
 });
 
 io.on("connection", (socket) => {
+  const { username } = socket.handshake.query;
   const { id } = socket;
   console.log("a user connected", id);
   socket.emit("welcome", id);
-  io.emit("enter-user", id);
+  io.emit("enter-user", username);
 
   socket.on("new-message", (message) => {
     const data = {
       message,
-      id,
+      sender: {
+        id,
+        username
+      }
     }
     io.emit("new-message", data);
   });
 
   socket.on("disconnect", () => {
     console.log("a user disconnected", id);
-    socket.broadcast.emit("leave-user", id);
+    socket.broadcast.emit("leave-user", username);
   });
 })
 
