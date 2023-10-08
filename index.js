@@ -4,7 +4,7 @@ import { Server } from "socket.io";
 const httpServer = createServer();
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "*",
   },
 });
 
@@ -15,15 +15,17 @@ io.on("connection", (socket) => {
   socket.emit("welcome", id);
   io.emit("enter-user", username);
 
-  socket.on("new-message", (message) => {
-    const data = {
-      message,
+  socket.on("new-message", (data) => {
+    const newMessage = {
+      message: data.message,
+      repliedTo: data.replyTo,
       sender: {
         id,
         username
       }
     }
-    io.emit("new-message", data);
+    console.log(newMessage)
+    io.emit("new-message", newMessage);
   });
 
   socket.on("disconnect", () => {
