@@ -1,11 +1,12 @@
+import dotenv from "dotenv";
 import { createServer } from "http";
 import { Server } from "socket.io";
 
+dotenv.config();
 const httpServer = createServer();
 const io = new Server(httpServer, {
   cors: {
-    origin: "https://echoch.vercel.app",
-    methods: ["GET", "POST"]
+    origin: process.env.CLIENT_URL,
   },
 });
 
