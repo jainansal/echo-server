@@ -5,6 +5,7 @@ const httpServer = createServer();
 const io = new Server(httpServer, {
   cors: {
     origin: "https://echoch.vercel.app",
+    methods: ["GET", "POST"]
   },
 });
 
