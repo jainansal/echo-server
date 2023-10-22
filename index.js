@@ -26,6 +26,7 @@ io.on("connection", (socket) => {
     const newMessage = {
       message: data.message,
       repliedTo: data.replyTo,
+      img: data.img,
       sender: {
         id,
         username
